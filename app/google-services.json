@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "719022427133",
+    "firebase_url": "https://account-e9c95.firebaseio.com",
+    "project_id": "account-e9c95",
+    "storage_bucket": "account-e9c95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:719022427133:android:121ef08580b8c010",
+        "android_client_info": {
+          "package_name": "com.example.nazia_000.account"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "719022427133-cdoq9btbl93io9lh49jc5i929dijfigu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nazia_000.account",
+            "certificate_hash": "d0393a32a772167924ab35e22b2233dc03b5ec5b"
+          }
+        },
+        {
+          "client_id": "719022427133-7p4keeoti2m1jarmgs7q2qrvi0gccubh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nazia_000.account",
+            "certificate_hash": "485cbf95b2e79a6efaae5802fa5eeb31af00698f"
+          }
+        },
+        {
+          "client_id": "719022427133-5ht87nu1g12j7d0i2mm5almd395q2rau.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuNAMzr2oHJhflL9qMXrMCGbeyhBne7Pc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "719022427133-5ht87nu1g12j7d0i2mm5almd395q2rau.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

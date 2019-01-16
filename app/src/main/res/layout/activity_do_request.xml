@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="45dp"
+    tools:context=".homePack.doRequestActivity">
+
+    <EditText
+        android:id="@+id/doRequName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:inputType="textPersonName"/>
+
+    <EditText
+        android:id="@+id/doRequNmbr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/doRequName"
+        android:layout_marginTop="20dp"
+        android:hint="Contact Number"
+        android:inputType="number"/>
+
+    <Spinner
+        android:id="@+id/doRequBloodGrp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/doRequNmbr"
+        android:layout_marginTop="20dp" >
+
+    </Spinner>
+
+    <EditText
+        android:id="@+id/doRequAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/doRequBloodGrp"
+        android:hint="Amount of blood needed:"
+        android:inputType="number"
+        android:layout_marginTop="20dp"
+        />
+
+    <Spinner
+        android:id="@+id/doRequStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/doRequAmount"
+        android:layout_marginTop="20dp"
+        >
+
+    </Spinner>
+
+    <Button
+        android:id="@+id/doRequButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/doRequStatus"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text="REQUEST"
+        android:textStyle="bold"/>
+
+</RelativeLayout>

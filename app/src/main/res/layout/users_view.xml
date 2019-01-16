@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/userListName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/userListNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userListName"
+        android:text="Contact Number"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/userListGrp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userListNumber"
+        android:text="Blood Group"
+        android:textSize="20dp"/>
+    <TextView
+        android:id="@+id/userListAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userListGrp"
+        android:text="Contact Number"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/userListLoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userListAge"
+        android:text="Blood Group"
+        android:textSize="20dp"/>
+
+
+
+</RelativeLayout>
