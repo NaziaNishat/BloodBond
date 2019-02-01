@@ -35,14 +35,16 @@ public class RequestAdapter extends ArrayAdapter<RequestClass> {
         TextView nmbrTxt = listView.findViewById(R.id.listNumber);
         TextView grpTxt = listView.findViewById(R.id.listGrp);
         TextView amountTxt = listView.findViewById(R.id.listAmount);
-        TextView statTxt = listView.findViewById(R.id.listStatus);
+        //TextView statTxt = listView.findViewById(R.id.listStatus);
+        TextView emailTxt = listView.findViewById(R.id.listEmail);
 
         RequestClass requestClass = requList.get(position);
-        nameTxt.setText(""+requestClass.getname());
-        nmbrTxt.setText(""+requestClass.getnumber());
-        grpTxt.setText(""+requestClass.getblood_Group());
-        amountTxt.setText(""+requestClass.getneeded_Amount());
-        statTxt.setText(""+requestClass.getstatus());
+        nameTxt.setText("   "+requestClass.getname());
+        nmbrTxt.setText("   "+requestClass.getnumber());
+        grpTxt.setText("    "+requestClass.getblood_Group());
+        amountTxt.setText("    "+requestClass.getneeded_Amount()+" (amount in bag)");
+        //statTxt.setText("   "+requestClass.getstatus());
+        emailTxt.setText("  " + requestClass.getEmail());
 
         return listView;
     }

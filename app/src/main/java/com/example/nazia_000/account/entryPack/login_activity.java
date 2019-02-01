@@ -1,5 +1,6 @@
 package com.example.nazia_000.account.entryPack;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -18,16 +19,21 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class login_activity extends AppCompatActivity {
 
+
     private FirebaseAuth loginAuth;
+
+    private ProgressDialog progressDialog;
 
     private Button login_btn,signup_btn;
     private EditText mail_login,pass_login;
-
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_activity);
+
+        progressDialog = new ProgressDialog(this);
 
         loginAuth = FirebaseAuth.getInstance();
 
@@ -45,28 +51,44 @@ public class login_activity extends AppCompatActivity {
 
     private void loginUser(){
 
-        String email = mail_login.getText().toString().trim();
+        progressDialog.cancel();
+
+        email = mail_login.getText().toString().trim();
         final String password = pass_login.getText().toString();
-        if(FirebaseAuth.getInstance().getCurrentUser() == null)
-        loginAuth.signInWithEmailAndPassword(email , password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            loginPage();
-                        }
-                        else{
-                            Toast.makeText(login_activity.this,"error",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-        else loginPage();
+
+        if(!email.isEmpty() && !password.isEmpty()) {
+
+            progressDialog.setMessage("Login is in progress...");
+            progressDialog.show();
+
+            if (FirebaseAuth.getInstance().getCurrentUser() == null)
+                loginAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    //if (loginAuth.getCurrentUser().isEmailVerified()) {
+                                    loginPage();
+                                    progressDialog.cancel();
+                                    //}
+                                } else {
+                                    progressDialog.cancel();
+                                    Toast.makeText(login_activity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            else loginPage();
+        }else{
+            Toast.makeText(getApplicationContext(),"Please fill up all field",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
     private void loginPage(){
         Intent intent = new Intent(login_activity.this, Homepage.class);
+        intent.putExtra("email",email);
         startActivity(intent);
+        finish();
 
         mail_login.setText("");
         pass_login.setText("");
@@ -75,6 +97,7 @@ public class login_activity extends AppCompatActivity {
     private void signupPage(){
         Intent intent = new Intent(login_activity.this, signup_activity.class);
         startActivity(intent);
+        finish();
     }
 
     class Handler implements View.OnClickListener{

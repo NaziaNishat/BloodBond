@@ -1,48 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="600dp"
+    android:background="@drawable/paper5r"
+    android:padding="15dp">
 
-    <TextView
-        android:id="@+id/listName"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
-        android:textSize="20dp"/>
+        android:padding="30dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="220dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/listNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/listName"
-        android:text="Contact Number"
-        android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/listName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/user32"
+            android:text="Name"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
 
-    <TextView
-        android:id="@+id/listGrp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/listNumber"
-        android:text="Blood Group"
-        android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/listEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/listName"
+            android:layout_marginTop="5dp"
+            android:drawableLeft="@drawable/gmail"
+            android:text="E-mail"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
 
-    <TextView
-        android:id="@+id/listAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/listGrp"
-        android:text="Amount"
-        android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/listNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/listEmail"
+            android:layout_marginTop="5dp"
+            android:drawableLeft="@drawable/phonecall32"
+            android:text="Contact Number"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="20dp"/>
 
-    <TextView
-        android:id="@+id/listStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/listAmount"
-        android:text="Status"
-        android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/listGrp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listNumber"
+            android:layout_marginTop="5dp"
+            android:drawableLeft="@drawable/blooddrop32"
+            android:text="Blood Group"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
 
+        <TextView
+            android:id="@+id/listAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listGrp"
+            android:drawableLeft="@drawable/ivbag"
+            android:layout_marginTop="5dp"
+            android:text="Amount"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
+

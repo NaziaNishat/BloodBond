@@ -2,13 +2,18 @@ package com.example.nazia_000.account.homePack;
 
 import android.content.Intent;
 import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -16,6 +21,7 @@ import android.widget.Toast;
 import com.example.nazia_000.account.Adapter.UserAdapter;
 import com.example.nazia_000.account.R;
 import com.example.nazia_000.account.classPack.ProfilesClass;
+import com.example.nazia_000.account.classPack.ShowProfile;
 import com.example.nazia_000.account.mapPack.MyLocation;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,7 +35,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import static com.example.nazia_000.account.R.id.usersView;
 
 public class searchActivity extends AppCompatActivity {
 
@@ -40,6 +50,9 @@ public class searchActivity extends AppCompatActivity {
 
     private Spinner listSearchSpin;
     private Button toggleBtn;
+    private ImageView imgCall,imgUser;
+
+    private String imgViewCall = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +62,9 @@ public class searchActivity extends AppCompatActivity {
         listView = findViewById(R.id.userListView);
         listSearchSpin = findViewById(R.id.spinnerSearchList);
         toggleBtn = findViewById(R.id.toggleList);
+
+        View view = getLayoutInflater().inflate(R.layout.users_view,null);
+        imgCall = view.findViewById(R.id.callImg);
 
         Handler handler = new Handler();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Blood_Group, android.R.layout.simple_spinner_item);
@@ -67,7 +83,31 @@ public class searchActivity extends AppCompatActivity {
             }
         });
 
+
+        imgCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(searchActivity.this,"Ho",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                final ProfilesClass pc = profilesList.get(position);
+                Intent intent = new Intent(searchActivity.this,ShowProfileActivity.class);
+                intent.putExtra("object",pc);
+                startActivity(intent);
+
+
+            }
+        });
+
     }
+
+
+
 
     class Handler implements AdapterView.OnItemSelectedListener{
 
@@ -84,7 +124,22 @@ public class searchActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for(DataSnapshot ds: dataSnapshot.getChildren()){
                         ProfilesClass profilesClass = ds.getValue(ProfilesClass.class);
+
                         profilesList.add(profilesClass);
+                        for (ProfilesClass p: profilesList){
+                            Log.d("Places before sorting", "Place: " + p.getaddress());
+                        }
+
+                        LatLng latLngSust = new LatLng(24.9172,91.8319);
+                        Collections.sort(profilesList,new SortPlaces(latLngSust));
+
+
+                        for (ProfilesClass p: profilesList){
+                            Log.d("Places after sorting", "Place: " + p.getaddress());
+                        }
+
+
+                        imgViewCall = profilesClass.getnumber();
                     }
 
                     UserAdapter userAdapter = new UserAdapter(searchActivity.this,profilesList);
@@ -103,6 +158,7 @@ public class searchActivity extends AppCompatActivity {
 
         }
     }
+
 
     @Override
     protected void onStart() {

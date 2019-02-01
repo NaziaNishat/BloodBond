@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service android:name=".FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity android:name=".entryPack.login_activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +33,6 @@
             android:name=".homePack.Homepage"
             android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar" />
         <activity android:name=".homePack.searchActivity" />
-        <activity android:name=".homePack.seeRequestActivity" />
         <activity android:name=".homePack.doRequestActivity" />
         <activity android:name=".homePack.infoActivity" />
         <activity android:name=".entryPack.ProfileActivity" />
@@ -34,13 +41,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAW4wI-_czrIpbOKMnAnAh83CT7SC7vmN0" />
 
-        <activity android:name=".homePack.RequestActivity" />
         <activity android:name=".mapPack.MyLocation" />
-        <activity android:name=".homePack.SearchPre" />
         <activity android:name=".navPack.navProfile" />
         <activity android:name=".navPack.navMyRequests" />
         <activity android:name=".navPack.navAcceptedRequests" />
         <activity android:name=".navPack.navDonationHistory" />
+        <activity android:name=".homePack.seeRequestActivity" />
+        <activity android:name=".homePack.ShowProfileActivity" />
     </application>
 
 </manifest>

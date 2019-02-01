@@ -3,41 +3,40 @@ package com.example.nazia_000.account.mapPack;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nazia_000.account.Adapter.RequestAdapter;
+import com.example.nazia_000.account.Adapter.infoWindowAdapter;
 import com.example.nazia_000.account.R;
-import com.example.nazia_000.account.classPack.LocationClass;
 import com.example.nazia_000.account.classPack.ProfilesClass;
-import com.example.nazia_000.account.classPack.RequestClass;
-import com.example.nazia_000.account.homePack.RequestActivity;
+import com.example.nazia_000.account.homePack.ShowProfileActivity;
 import com.example.nazia_000.account.homePack.searchActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -68,6 +67,18 @@ public class MyLocation extends AppCompatActivity
     private List<Address> addresses;
     private ArrayList<Marker> markerList;
 
+    private ImageView locImg;
+    private EditText searchRad;
+
+    LatLng latLngSust = new LatLng(24.9172,91.8319);
+
+    private int radius = 20;
+
+    private TextView nameTxt,nmbrTxt,grpTxt, adrsTxt,statTxt;
+    private boolean isCalled = false;
+
+    private  String nam,nmb,grp,adr = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +87,9 @@ public class MyLocation extends AppCompatActivity
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        locImg = findViewById(R.id.imgLoc);
+        searchRad = findViewById(R.id.radSearch);
 
         locRef = FirebaseDatabase.getInstance().getReference("Users");
         geocoder = new Geocoder(getApplicationContext());
@@ -89,7 +103,8 @@ public class MyLocation extends AppCompatActivity
         searchSpinner.setAdapter(adapter);
         searchSpinner.setOnItemSelectedListener(handler);
 
-        getLocation();
+        ClickHandle clickHandle = new ClickHandle();
+        locImg.setOnClickListener(clickHandle);
 
         findViewById(R.id.toggle).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,9 +113,12 @@ public class MyLocation extends AppCompatActivity
             }
         });
 
+
     }
 
-    private void getLocation(){
+    double latitude;
+    double longitude;
+    private void getLocation() {
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -108,72 +126,112 @@ public class MyLocation extends AppCompatActivity
             ActivityCompat.requestPermissions(this, new String[]
                             {Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_LOCATION_PERMISSION);
-        }
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
+        } else{
+            locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
 
-                double latitude = location.getLatitude();
-                double longitude = location.getLongitude();
-                Geocoder geocoder = new Geocoder(getApplicationContext());
-                try {
-                    List<Address> addresses =
-                            geocoder.getFromLocation(latitude, longitude, 1);
-                    String result = addresses.get(0).getLocality()+":";
-                    result += addresses.get(0).getCountryName();
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    if (marker != null){
-                        marker.remove();
-                        marker = mMap.addMarker(new MarkerOptions().position(latLng).title(result));
-                        mMap.setMaxZoomPreference(20);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude),15f));
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    try {
+                        List<Address> addresses =
+                                geocoder.getFromLocation(latitude, longitude, 10);
+                        String result = addresses.get(0).getLocality() + ":";
+                        result += addresses.get(0).getCountryName();
+                        LatLng latLng = new LatLng(latitude, longitude);
+                        if (marker != null) {
+                            marker.remove();
+                            marker = mMap.addMarker(new MarkerOptions().position(latLng).title(result).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                            mMap.setMaxZoomPreference(20);
+                            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude),15f));
+                        } else {
+                            marker = mMap.addMarker(new MarkerOptions().position(latLng).title(result).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                            mMap.setMaxZoomPreference(20);
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15f));
+                        }
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    else{
-                        marker = mMap.addMarker(new MarkerOptions().position(latLng).title(result));
-                        mMap.setMaxZoomPreference(20);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude),15f));
-                    }
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
 
-            }
+                }
 
-            @Override
-            public void onProviderEnabled(String provider) {
+                @Override
+                public void onProviderEnabled(String provider) {
 
-            }
+                }
 
-            @Override
-            public void onProviderDisabled(String provider) {
+                @Override
+                public void onProviderDisabled(String provider) {
 
-            }
-        };
+                }
+            };
 
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude),15f));
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        }
     }
+
 
 
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
+        getLocation();
+        marker = mMap.addMarker(new MarkerOptions().position(latLngSust).title("Sylhet:Bangladesh").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(24.9172,91.8319), 15f));
+
+    }
+
+    Circle mapCircle = null;
+    class ClickHandle implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            if(v.getId() == R.id.imgLoc){
+
+                String s = searchRad.getText().toString().trim();
+                int dis = Integer.parseInt((String) s);
+
+                if(mapCircle != null)
+                    mapCircle.remove();
+
+                if(!s.isEmpty()){
+
+                        LatLng latLng = new LatLng(latitude,longitude);
+
+                        CircleOptions circleOptions = new CircleOptions();
+                        circleOptions.center(latLngSust);
+                        circleOptions.radius(10 * dis);
+                        circleOptions.strokeColor(R.color.colorAccent);
+                        circleOptions.fillColor(R.color.CadetBlue);
+                        mapCircle = mMap.addCircle(circleOptions);
+
+                }
+
+                else{
+                    Toast.makeText(getApplicationContext(),"Fill search field first",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
 
     class Handler implements AdapterView.OnItemSelectedListener{
 
         @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
 
             for(Marker mrkr: markerList)
-                mrkr  .remove();
+                mrkr.remove();
 
 
             addresses.clear();
@@ -188,21 +246,34 @@ public class MyLocation extends AppCompatActivity
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for(DataSnapshot ds: dataSnapshot.getChildren()){
-                        ProfilesClass profilesClass = ds.getValue(ProfilesClass.class);
+                        final ProfilesClass profilesClass = ds.getValue(ProfilesClass.class);
+
+
+                        infoWindowAdapter infoWindowAdapter = new infoWindowAdapter(MyLocation.this);
+                        mMap.setInfoWindowAdapter(infoWindowAdapter);
+
+                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick(Marker marker) {
+                                final ProfilesClass pc = (ProfilesClass) marker.getTag();
+                                Intent intent = new Intent(MyLocation.this,ShowProfileActivity.class);
+                                intent.putExtra("object",pc);
+                                startActivity(intent);
+                            }
+                        });
 
                         try {
-                            addresses = geocoder.getFromLocationName(profilesClass.getaddress().trim(),1);
+                            addresses = geocoder.getFromLocationName(profilesClass.getaddress().trim(),10);
                             LatLng latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
 
-                            markerList.add(mMap.addMarker(new MarkerOptions()
+                            Marker m =  mMap.addMarker(new MarkerOptions()
                                     .position(latLng)
                                     .title(""+profilesClass.getaddress())
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-
-                            ));
-
-
+                            markerList.add(m);
+                            m.setTag(profilesClass);
+                            m.showInfoWindow();
 
                         } catch (IOException e) {
                             e.printStackTrace();

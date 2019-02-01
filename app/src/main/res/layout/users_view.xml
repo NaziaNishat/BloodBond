@@ -1,47 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:id="@+id/usersView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="300dp"
+    android:padding="15dp"
+    android:background="@color/CadetBlue">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/roundbg">
 
-    <TextView
-        android:id="@+id/userListName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:textSize="20dp"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userImg"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="25dp"
+            android:src="@mipmap/ic_launcher_round"/>
 
-    <TextView
-        android:id="@+id/userListNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/userListName"
-        android:text="Contact Number"
-        android:textSize="20dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_marginLeft="20dp">
 
-    <TextView
-        android:id="@+id/userListGrp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/userListNumber"
-        android:text="Blood Group"
-        android:textSize="20dp"/>
-    <TextView
-        android:id="@+id/userListAge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/userListGrp"
-        android:text="Contact Number"
-        android:textSize="20dp"/>
-
-    <TextView
-        android:id="@+id/userListLoc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/userListAge"
-        android:text="Blood Group"
-        android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/userListName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:drawableLeft="@drawable/user32"
+            android:text="Name"
+            android:textSize="20dp"/>
 
 
+        <ImageView
+            android:id="@+id/callImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/userListName"
+            android:src="@drawable/phonecall32"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/userListNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userListName"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="40dp"
+            android:text="Contact Number"
+            android:textSize="20dp"/>
+
+
+        <TextView
+            android:id="@+id/userListGrp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/userListNumber"
+            android:drawableLeft="@drawable/blooddrop32"
+            android:layout_marginTop="5dp"
+            android:text="Blood Group"
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/userListAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userListGrp"
+            android:layout_marginTop="5dp"
+            android:drawableLeft="@drawable/age1"
+            android:text="Age"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/userListLoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/userListAge"
+            android:drawableLeft="@drawable/address1"
+            android:layout_marginTop="5dp"
+            android:text="Address"
+            android:textSize="20dp"/>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
